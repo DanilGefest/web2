@@ -1,0 +1,46 @@
+.zero-task-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+
+    hr {
+        border: 1px solid #FF8303;
+        border-radius: 8px;
+        margin: 10px;
+    }
+
+    p {
+        font-family: 'Inter';
+        color: #FFFFFF;
+        font-size: 24px;
+  
+    }
+}
+
+.to-do-list-container {
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+    gap: 16px;
+
+        div {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .text-task {
+            display: flex;
+            flex-direction: column;
+            color: #FFFFFF;
+        }
+
+        .div-delete-button {
+            display: flex;
+            position: absolute;
+        }
+
+}
+
+
