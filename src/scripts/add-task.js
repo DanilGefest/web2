@@ -14,6 +14,11 @@ class Task{
     }
 }   
 
+if(JSON.parse(localStorage.getItem("TaskStorage")) == null){
+    let arr = [];
+    localStorage.setItem("TaskStorage", JSON.stringify(arr))
+}
+
 loadTask();
 function loadTask(){
     let taskListData = JSON.parse(localStorage.getItem("TaskStorage"))
@@ -23,7 +28,7 @@ function loadTask(){
     if(taskListData.length > 0){
         for(let i = 0 ; i < taskListData.length; i++){
             taskContainer.innerHTML += `
-            <div>
+            <div class="task">
                 <div class="text-task"> 
                     <h2> ${taskListData[i].title}</h2> 
                     <p> ${taskListData[i].about}</p>
@@ -31,18 +36,36 @@ function loadTask(){
                 <div class="delete-button">
                     <button class="button-del"> <img src="src/assets/images/button-dell.svg" alt=""></button>
                 </div>
-            </div>`
+
+                <div class="interact-task-buttons">
+                    
+                </div>
+            </div>`;
         }
+
+        document.querySelectorAll(".task").forEach((element, index)=>{
+            element.addEventListener("click", ()=>{
+                let interactButtons = element.querySelector(".interact-task-buttons")
+
+                if(interactButtons.querySelector("button")){
+                    interactButtons.innerHTML = ``;
+                } else {
+                    interactButtons.innerHTML+=`
+                    <button class="share-button">share</button>
+                    <button>info</button>
+                    <button class="edit-button">edit</button>
+                    `;
+
+                    interactButtons.querySelector(".edit-button").addEventListener("click", ()=>showEditMenu(index));
+                }
+            });
+        });
+
     } else {
         zeroTaskContainer.innerHTML = '<div class="zero-container"> <hr> <p>No tasks</p> <hr> </div>'
     }
 }
 
-document.querySelectorAll('.button-del').forEach((element, index) => {
-    element.addEventListener('click', () => {
-        delTask(index);
-    })
-})
 
 addTaskButton.addEventListener('click', ()=>{
     const title = inputTitle.value
@@ -58,51 +81,3 @@ addTaskButton.addEventListener('click', ()=>{
         location.reload();
     }
 })
-
-function delTask(index){
-    let taskListData = JSON.parse(localStorage.getItem('TaskStorage'));
-    taskListData.splice(index, 1);
-    localStorage.setItem('TaskStorage', JSON.stringify(taskListData));
-    location.reload();
-}
-
-// addTaskButton.onclick = function () {
-// let taskListData = JSON.parse(localStorage.getItem('TaskStorage'));
-
-//     const title = inputTitle.value;
-//     const about = inputAbout.value;
-   
-//     // const task = document.createElement('div')
-
-    
-//     if (title && about) {
-//         let taskExemp = new Task(title, about);
-//         taskListData.push(taskExemp);
-
-//         // zeroTaskContainer.innerHTML = ''
-//         // task.innerHTML = `
-//         //     <div class="text-task"> 
-//         //         <h2> ${title} </h2> 
-//         //         <p> ${about} </p>
-//         //     </div>
-//         //     <div class="delete-button">
-//         //         <button class="button-del"> <img src="src/assets/images/button-dell.svg" alt=""></button>
-//         //     </div>`
-//         // taskContainer.appendChild(task)
-//         // inputTitle.value = ''
-//         // inputAbout.value = ''
-
-//         // const closeButton = task.querySelector('.button-del')
-//         // closeButton.addEventListener('click', () => {
-//         //     taskContainer.removeChild(task)
-//         // })
-
-//     } else {
-//         alert('Введите титул и описание!')
-//     }
-
-
-// }
-
-
-
